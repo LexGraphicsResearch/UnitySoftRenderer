@@ -31,7 +31,7 @@ public class TinyRenderer : MonoBehaviour
             for (int j = 0; j < 3; j++)
             {
                 var v1 = this.m_africanHeadMesh.vertices[faces[i + j]];
-                var v2 = this.m_africanHeadMesh.vertices[faces[i + ((j+1) % 3)]];
+                var v2 = this.m_africanHeadMesh.vertices[faces[i + ((j + 1) % 3)]];
                 int x0 = (int)((v1.x + 1) * this.m_width / 2);
                 int y0 = (int)((v1.y + 1) * this.m_height / 2);
                 int x1 = (int)((v2.x + 1) * this.m_width / 2);
@@ -44,14 +44,23 @@ public class TinyRenderer : MonoBehaviour
 
     void DrawTri(Triangle tri)
     {
-        DrawTri(tri.m_v1,tri.m_v2,tri.m_v3,tri.m_color);
+        DrawTri(tri.m_v1, tri.m_v2, tri.m_v3, tri.m_color);
     }
 
-    void DrawTri(Vector2Int t0, Vector2Int t1, Vector2Int t2,Color color)
+    /// <summary>
+    ///
+    ///todo
+    ///Sort vertices of the triangle by their y-coordinates;
+    ///Rasterize simultaneously the left and the right sides of the triangle;
+    ///Draw a horizontal line segment between the left and the right boundary points.
+    ///
+    ///  
+    /// </summary>
+    void DrawTri(Vector2Int t0, Vector2Int t1, Vector2Int t2, Color color)
     {
-        DrawLine(t0.x,t0.y,t1.x,t1.y,color);
-        DrawLine(t1.x,t1.y,t2.x,t2.y,color);
-        DrawLine(t2.x,t2.y,t0.x,t0.y,color);
+        DrawLine(t0.x, t0.y, t1.x, t1.y, color);
+        DrawLine(t1.x, t1.y, t2.x, t2.y, color);
+        DrawLine(t2.x, t2.y, t0.x, t0.y, color);
     }
 
 
@@ -97,10 +106,10 @@ public class TinyRenderer : MonoBehaviour
     void LoadModel()
     {
         //https://en.wikipedia.org/wiki/Wavefront_.obj_file more about file format here;
-        var africanHead= AssetDatabase.LoadAssetAtPath<GameObject>("Assets/TinyRenderer/Models/african_head/african_head.obj");
+        var africanHead = AssetDatabase.LoadAssetAtPath<GameObject>("Assets/TinyRenderer/Models/african_head/african_head.obj");
         m_africanHeadMesh = africanHead.GetComponentInChildren<MeshFilter>().sharedMesh;
 
-        
+
 
     }
 
@@ -135,7 +144,7 @@ public class TinyRenderer : MonoBehaviour
         var bytes = this.m_texture.EncodeToPNG();
         var dirPath = string.Format($"{Application.dataPath}/../SaveImages/");
         Directory.CreateDirectory(dirPath);
-        File.WriteAllBytes(string.Format($"{dirPath}/{DateTime.Now:HHmmss}.png"),bytes);
+        File.WriteAllBytes(string.Format($"{dirPath}/{DateTime.Now:HHmmss}.png"), bytes);
     }
 
     void Update()
