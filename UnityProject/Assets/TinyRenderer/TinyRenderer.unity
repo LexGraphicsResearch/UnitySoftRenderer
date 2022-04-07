@@ -594,6 +594,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cfe6be11f1211704a8b9206e66e36723, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  m_triangles:
+  - m_color: {r: 0.8018868, g: 0.22316661, b: 0.22316661, a: 0}
+    m_v1: {x: 10, y: 70}
+    m_v2: {x: 50, y: 160}
+    m_v3: {x: 70, y: 80}
+  - m_color: {r: 0.9339623, g: 0.876691, b: 0.876691, a: 0}
+    m_v1: {x: 180, y: 50}
+    m_v2: {x: 150, y: 1}
+    m_v3: {x: 70, y: 180}
+  - m_color: {r: 0.4542987, g: 0.7830189, b: 0.4816484, a: 0}
+    m_v1: {x: 180, y: 150}
+    m_v2: {x: 120, y: 160}
+    m_v3: {x: 130, y: 180}
   m_btn: {fileID: 1469750144}
   m_width: 500
   m_height: 500

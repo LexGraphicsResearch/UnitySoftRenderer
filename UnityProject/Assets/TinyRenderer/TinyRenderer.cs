@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.IO;
 using UnityEditor;
 using UnityEngine;
@@ -9,6 +10,12 @@ public class TinyRenderer : MonoBehaviour
     void Render()
     {
         DrawMesh();
+
+        foreach (var tri in m_triangles)
+        {
+            DrawTri(tri);
+        }
+
     }
 
     void SetColor(int x, int y, Color color)
@@ -33,7 +40,18 @@ public class TinyRenderer : MonoBehaviour
 
             }
         }
+    }
 
+    void DrawTri(Triangle tri)
+    {
+        DrawTri(tri.m_v1,tri.m_v2,tri.m_v3,tri.m_color);
+    }
+
+    void DrawTri(Vector2Int t0, Vector2Int t1, Vector2Int t2,Color color)
+    {
+        DrawLine(t0.x,t0.y,t1.x,t1.y,color);
+        DrawLine(t1.x,t1.y,t2.x,t2.y,color);
+        DrawLine(t2.x,t2.y,t0.x,t0.y,color);
     }
 
 
@@ -82,7 +100,21 @@ public class TinyRenderer : MonoBehaviour
         var africanHead= AssetDatabase.LoadAssetAtPath<GameObject>("Assets/TinyRenderer/Models/african_head/african_head.obj");
         m_africanHeadMesh = africanHead.GetComponentInChildren<MeshFilter>().sharedMesh;
 
+        
+
     }
+
+    [Serializable]
+    struct Triangle
+    {
+        public Color m_color;
+        public Vector2Int m_v1;
+        public Vector2Int m_v2;
+        public Vector2Int m_v3;
+    }
+
+
+
 
 
     void Start()
@@ -112,6 +144,11 @@ public class TinyRenderer : MonoBehaviour
         this.m_texture.Apply();
 
     }
+
+
+    [SerializeField]
+    private List<Triangle> m_triangles;
+
 
 
     [SerializeField]
