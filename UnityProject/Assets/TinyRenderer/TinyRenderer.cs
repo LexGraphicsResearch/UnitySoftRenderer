@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -8,8 +9,8 @@ public class TinyRenderer : MonoBehaviour
 
     void Render()
     {
-        DrawLine(13,20,80,40,Color.white);
-        DrawLine(20,13,40,80,Color.red);
+        DrawLine(13, 20, 80, 40, Color.white);
+        DrawLine(20, 13, 40, 80, Color.red);
         DrawLine(80, 40, 13, 20, Color.red);
     }
 
@@ -18,20 +19,39 @@ public class TinyRenderer : MonoBehaviour
         this.m_texture.SetPixel(x, y, color);
     }
 
+
     void DrawLine(int x0, int y0, int x1, int y1, Color color)
     {
-        if (x0 > x1)
+        //handle sparse points
+        int h = Math.Abs(y0 - y1);
+        int w = Math.Abs(x0 - x1);
+        bool steep = h > w;
+        if (steep)
         {
-            var (tempx,tempy)=(x0,y0);
-            (x0,y0)=(x1,y1);
-            (x1, y1) = (tempx,tempy);
+            (x0, y0) = (y0, x0);
+            (x1, y1) = (y1, x1);
         }
 
-        for (int x = x0; x <=x1 ; x++)
+
+        //make x0 always smaller than x1; for symmetry
+        if (x0 > x1)
         {
-           float k=(y1-y0)/(float)(x1-x0);
-           int y=(int) (k * (x - x0));
-           SetColor(x,y,color);
+            (x0, x1) = (x1, x0);
+            (y0, y1) = (y1, y0);
+        }
+
+        for (int x = x0; x <= x1; x++)
+        {
+            float k = (y1 - y0) / (float)(x1 - x0);
+            int y = (int)(k * (x - x0))+y0;
+            if (steep)
+            {
+                SetColor(y, x, color);
+            }
+            else
+            {
+                SetColor(x, y, color);
+            }
         }
     }
 
